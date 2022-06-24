@@ -440,9 +440,126 @@ Tenancy in AWS :
 	
 ______________________________________
 
-	Task : Launch a windows ec2 instance, make it as "Web Server", Test the "Security groups" and deliver custom webpage.
+Task : Launch a windows ec2 instance, make it as "Web Server", Test the "Security groups" and deliver custom webpage.
 
-	Task 2 : Perform some more customisations on the task 1 instance and make it as GoldemAMI , Launch instance from GAMI and Test we got all the customisations or not..!!!!!!
+Task 2 : Perform some more customisations on the task 1 instance and make it as GoldemAMI , Launch instance from GAMI and Test we got all the customisations or not..!!!!!!
 
-	Task 3 : Launch Linux ec2 instance, Make it as webserver.. Add custom webpage.. Create a Golden AMI and Launch instance from GAMI and test output. 
+Task 3 : Launch Linux ec2 instance, Make it as webserver.. Add custom webpage.. Create a Golden AMI and Launch instance from GAMI and test output. 
+
+________________________________________________________________________________________________
+
+D: 24/05/2022
+
+
+EIP : Elastic IP Address : Dedicated IP address we will get from AWS. We can associate this to an ec2 instance. When Instance is STOP/START, this IP won't change.
+(COST US : NO FREE TIER ELIGIBILITY, EVEN if you generated kept it idle)
+
+
+ENI : Elastic Network Interface : NIC CARD for Instance.. : 
+--> EC2 instance and ENI should be in same AZ.
+__________________
+
+RDP : 3389
+SSH : 22
+http : 80
+https : 443
+mssql : 1433
+Mysql : 3306
+
+--> We can have 5 SGs for an EC2 Instance. 
+--> Wecan have 60 inbound and 60 outbound rules per security group (making a total of 120 rules)
+
+http://localhost/ or http://127.0.0.1/
+
+** Security Groups : http / https traffic.. 
+--> CHanges to the Security group takes effect immedeately. (No need to stop/start the instance). 
+--> Security group won't support DENY. It allow the traffic. 
+--> Security groups are stateful. We need to take care about INBOUND RULES only. 
+--> All the Outbound traffic is allowed for every security groups. 
+
+___________________________________________________________________________________________
+
+Step 2 : Choose an Instance type 		: vCPU, Memory(RAM), Network perf
+==> t2.micro
+
+
+General Purpose : Stable/balanced performance of compute, memory and network resources.
+Type : t2, t3, t4, m5
+
+Compute Optimized : We will get more CPU performances from these instances. We will have high perf processors in these instances.
+Type : c4, c5, c6  (Compute / CPU)
+
+Memory Optimized : We will get more RAM perf. Workloads required to process large set of data via memory.
+Type : r4, r5, r6, x1, z1, u1 (RAM)
+
+GPU Optimized / Accelerated computing : We will get more graphic processings, Efficient for data pattern matching, High level gaming.
+Type : p2, p3, p4, g3, g4, f1  
+
+Storage optimized : we will get more Storage/ Hard Disk performance. FOr the application required more IOPS, we use this types.
+Type : d2, d3, i3 (disk , iops)
+
+m5.large	: 2 CPU, 8 RAM
+c5.xlarge	: 4 cpu, 8 ram
+t4g.medium: 2 cpu, 4 ram
+
+___
+
+
+ec2 instance --> install application --> t2.micro --> Verify the metrics
+
+Cloudwatch : Monitors the resources.. Provides the graphs.. 
+
+___
+
+#!/bin/bash
+yum install httpd -y
+service httpd start
+chkconfig httpd on
+echo "<h1> Web Server ap-south-1a</h1>" >> /var/www/html/index.html
+
+#!/bin/bash
+yum install httpd -y
+service httpd start
+chkconfig httpd on
+echo "<h1> Web Server ap-south-1b</h1>" >> /var/www/html/index.html
+
+___
+
+Cloudwatch : Monitoring Service. 
+--> By default, CW will be enabled with Basic Monitoring. 
+--> We can monitor CPU, Network, Disk perf (iops), status checks.
+--> We cannot monitor MEMORY (RAM) utilisation with Default metrics.
+--> We need to depend on Custom metrics by installing CW agent in ec2 instance.
+
+--> Basic Monitoring : 5 Minutes : Free Tier Eligible
+--> Detailed Monitoring : 1 Minute : Cost us
+______
+
+Event Bridge : 
+
+{"version":"0","id":"eec4eda2-6639-e7b3-150d-c6461f1f0686","detail-type":"EC2 Instance State-change Notification","source":"aws.ec2","account":"501170964283","time":"2022-04-08T02:59:33Z","region":"ap-south-1","resources":["arn:aws:ec2:ap-south-1:501170964283:instance/i-00f56eba78b7b4e65"],"detail":{"instance-id":"i-00f56eba78b7b4e65","state":"stopped"}}
+
+Sample Event : 
+
+INPUT PATH:
+
+{"instance-id":"$.detail.instance-id", "state":"$.detail.state", "time":"$.time", "region":"$.region", "account":"$.account"}
+
+INPUT TEMPLATE: 
+
+"At <time>, Status of your EC2 instance <instance-id> in the AWS Region <region> has changed to <state>."
+
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
+https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html#eb-cron-expressions
+
+____________
+
+Task 1 : launch an ec2 instance and configure an alarm to Stop instance if CPU utilisation is <=30% for 10 minutes.
+
+Task 2 : Configure Eventbridge to stop an ec2 instance at a particular time using Crontab. (10:30 Am)
+
+Task 3 : Configure to stop an ec2 instance after 5 minutes, trigger an email with custom email format.
+
+Task 4 ; launch ec2 instance and make instance as webserver using userdata.
+
 	
