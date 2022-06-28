@@ -597,58 +597,6 @@ Task : Launch multiple webservers in Multiple AZs... COnfigure the Classic ELB.
 
 _______________________________________________________________________________________
 
-
-Userdata : We can pass commands to our ec2 instance, it executes when we launch instances for the first time. 
-
-curl http://169.254.169.254/latest/user-data/
-
-Linux : #!/bin/bash
-
-yum install httpd -y
-service httpd start
-chkconfig httpd on
-echo "<h1>THis is my BSS Webpage</h1>" >> /var/www/html/index.html
-
-#Cloud-init : To execute commands after every reboot
-
-Windows : 
-<powershell> commands </powershell>
-<script>tzutil /s "India Standard Time"</script>
-
-<persist>on/true</persist> : To execute commands after every reboot
-
-
-Metadata : data about the data. We can run this metadata url inside an ec2 instance and we can get the required information about the ec2 instance. 
-
-ami-id
-ami-launch-index
-ami-manifest-path
-block-device-mapping/
-events/
-hibernation/
-hostname
-identity-credentials/
-instance-action
-instance-id
-instance-life-cycle
-instance-type
-local-hostname
-local-ipv4
-mac
-metrics/
-network/
-placement/
-profile
-public-hostname
-public-ipv4
-public-keys/
-reservation-id
-security-groups
-services/
-_________________________
-
-
-
 Target Group : Each target group is used to route requests to one or more registered targets. When you create each listener rule, you specify a target group and conditions. When a rule condition is met, traffic is forwarded to the corresponding target group.
 
 Application ELB : http and https
@@ -733,4 +681,54 @@ ________
 7 : Configure Versions for Launch config. 
 
 _______________________________________________________________________________________
+
+
+Userdata : We can pass commands to our ec2 instance, it executes when we launch instances for the first time. 
+
+curl http://169.254.169.254/latest/user-data/
+
+Linux : #!/bin/bash
+
+yum install httpd -y
+service httpd start
+chkconfig httpd on
+echo "<h1>THis is my BSS Webpage</h1>" >> /var/www/html/index.html
+
+#Cloud-init : To execute commands after every reboot
+
+Windows : 
+<powershell> commands </powershell>
+<script>tzutil /s "India Standard Time"</script>
+
+<persist>on/true</persist> : To execute commands after every reboot
+
+
+Metadata : data about the data. We can run this metadata url inside an ec2 instance and we can get the required information about the ec2 instance. 
+
+ami-id
+ami-launch-index
+ami-manifest-path
+block-device-mapping/
+events/
+hibernation/
+hostname
+identity-credentials/
+instance-action
+instance-id
+instance-life-cycle
+instance-type
+local-hostname
+local-ipv4
+mac
+metrics/
+network/
+placement/
+profile
+public-hostname
+public-ipv4
+public-keys/
+reservation-id
+security-groups
+services/
+_________________________
 
