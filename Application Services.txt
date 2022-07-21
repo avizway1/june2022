@@ -39,7 +39,6 @@ AWS Console Recorder : Browser plugin
 
 _____________________________________________________________________________________
 
-
 Codecommit
 CodeDeploy
 Codepipeline
@@ -84,3 +83,15 @@ Task Defination : Task definitions specify the container information for your ap
 3. host — The task bypasses Docker's built-in virtual network and maps container ports directly to the ENI of the Amazon EC2 instance hosting the task. As a result, you can't run multiple instantiations of the same task on a single Amazon EC2 instance when port mappings are used.
 
 4. none — The task has no external network connectivity.
+
+
+Code : JULYAWS1 (Valid for 5 Days)
+
+https://www.udemy.com/course/jenkinswithavinash/?couponCode=JULYAWS1
+https://www.udemy.com/course/gitbyavinash/?referralCode=F7D62CDB4D61EADE1CC7
+https://www.udemy.com/course/linuxwithavinash/?couponCode=JULYAWS1
+
+
+
+
+
